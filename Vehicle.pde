@@ -65,9 +65,9 @@ class Vehicle {
     }
   }
 
-  void calculateTurn() {
+  void calculateTurn() { //finds the angle needed and if there is a road nearby that it is on that can allow it to turn to that angle
     float desiredAngle = findDesiredAngle();
-    if (desiredAngle == -PI/2) {
+    if (desiredAngle == -PI/2) { //makes negative PI/2 into 3PI/2 as they are functionally the same for rotating
       desiredAngle = 3*PI/2;
     } else if (desiredAngle < PI/2 || desiredAngle > 3*PI/2) { // 2PI is the same as 0
       desiredAngle = 0;
@@ -91,7 +91,7 @@ class Vehicle {
     }
   }
 
-  float findDesiredAngle() {
+  float findDesiredAngle() { //finds the needed angle if it's turning left or right
     float desiredAngle = 0;
     if (turningRight == true) {
       desiredAngle = roadPos + PI/2;
@@ -101,7 +101,8 @@ class Vehicle {
     }
     return desiredAngle;
   }
-  void accelerate() {
+  
+  void accelerate() { //increases the car's speed by the acceleration given
     if (speed < maxSpeed) {
       this.speed += acceleration;
     }
@@ -110,7 +111,7 @@ class Vehicle {
     }
   }
 
-  void decelerate() {
+  void decelerate() { //decreases the car's speed by deceleration
     if (speed > maxSpeed) {
       this.speed -= deceleration;
     }
@@ -120,18 +121,18 @@ class Vehicle {
   }
 
   void turn() {
-    if (isTurning == true) {
+    if (isTurning == true) { //will only begin to turn if we're on a road to turn to and has found where to turn to with calculateTurn
       if (turningLeft == true) {
         this.angle -= (rotationStrength); //rotating the opposite direction visually before we enter the lane
       } else if (turningRight == true) {
         this.angle += (rotationStrength);
       }
-      if (angle >= PI/2 || angle <= -PI/2) {
+      if (angle >= PI/2 || angle <= -PI/2) { //for processing rounding issues, we only want to change it by PI/2 so we adjust if it goes slightly over
         if (angle >= PI/2) {
           this.angle = PI/2;
           this.roadPos += angle;
         }
-        if (angle <= -(PI/2)) {
+        if (angle <= -(PI/2)) { //for processing rounding issues, we only want to change it by PI/2 so we adjust if it goes slightly over
           this.angle = -PI/2;
           this.roadPos += angle;
         }
@@ -175,7 +176,7 @@ class Vehicle {
     return middleY;
   }
 
-  boolean wantsToTurn() {
+  boolean wantsToTurn() { //randomly calls this and checks if we want to turn based on random chance.
     int turnChance = int(random(1, 100));
     if (turnChance >= 5) {
       return true;
@@ -184,7 +185,7 @@ class Vehicle {
     return false;
   }
 
-  boolean checkOffScreen() {
+  boolean checkOffScreen() { //if it's offscreen we can remove it from the array to avoid having extra calculations
     if ( yPos <= 0 || yPos >= 700 || xPos <= 0 || xPos >= 1000) {
       return true;
     } else {

@@ -41,6 +41,7 @@ public void pause_click1(GButton source, GEvent event) { //_CODE_:pause:848946:
 
 public void clear_click1(GButton source, GEvent event) { //_CODE_:clear:633085:
   setupVehicleArrays();
+  totalCollisions = 0;
 } //_CODE_:clear:633085:
 
 public void speed_change1(GSlider source, GEvent event) { //_CODE_:speed:759106:

@@ -11,7 +11,7 @@ class Road {
   String side;
   float orientation;
 
-  Road(int w, int h, int s, int xC, int yC, float o, String rT, String side) {
+  Road(int w, int h, int s, int xC, int yC, float o, String rT, String side) { //consructor for roads, they need the most amount of information so it has the orientation and side of the road attached
     this.rw = w;
     this.rh = h;
     this.speed = s; 
@@ -22,7 +22,7 @@ class Road {
     this.side = side;
   }
 
-  Road(int w, int h, int s, int xC, int yC, String rT) {
+  Road(int w, int h, int s, int xC, int yC, String rT) {//constructor for the intersections
     this.rw = w;
     this.rh = h;
     this.speed = s; 
@@ -31,7 +31,7 @@ class Road {
     this.roadType = rT;
   }
   
-  Road(int xCor1, int yCor1, int xCor2, int yCor2) {
+  Road(int xCor1, int yCor1, int xCor2, int yCor2) { //constructor for road lines
     this.x = xCor1;
     this.y = yCor1;
     this.x2 = xCor2;
@@ -45,16 +45,13 @@ class Road {
     line(this.x, this.y, this.x2, this.y2);
   }
 
-  void drawRoad() {
+  void drawRoad() { //draws the road as a rectangle
     rectMode(CENTER);
     noStroke();
     fill(55);
     rect(this.x, this.y, this.rw, this.rh);
     fill(255, 255, 0);
   }
-
-  //void drawLineCrossing(Road a, Road b) {
-  //}
 
   void drawIntersection() {
     rectMode(CENTER);

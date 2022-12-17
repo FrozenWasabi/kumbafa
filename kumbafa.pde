@@ -31,7 +31,7 @@ ArrayList<Road> allRoads =  new ArrayList<Road>(); //arraylist for all roads
 int maxCars = 1;
 int totalCollisions = 0;
 
-void setup() {
+void setup() { //sets the frame rate and loads all images
   frameRate(30);
   size(1000, 700);
   setupVehicleArrays();
@@ -47,27 +47,31 @@ void setup() {
   imgBushub = loadImage("Bushub.png");
 }
 
-void setupVehicleArrays() {
+void setupVehicleArrays() { //sets up the car arraylist. We made it a callable function to be able to reset it later on.
   allCars = new ArrayList<Car>(); //arraylist for all cars on the road
 }
+
 void draw() {
-  if (paused == false) {
+  if (paused == false) { //only runs if it's not paused
     int brightness = getBrightness();
     colorMode(HSB);
     background(120, 100, brightness);
     colorMode(RGB);
-    drawMap();
-    updateCars();
+    
+    drawMap(); //draws the map
+    
+    updateCars(); //draws the cars and updates their location, then spawns new cars
     drawCars();
     dayTimeCarSpawn();
-    //clearCars();
-    noTint();
+    
+    noTint(); //draws all the images without the tint from cars affecting it
     image(imgSchool, 230, 200, width/7, height/6);
     image(imgOffice, 710, 450, width/2.5, height/1.8);
     image(imgSupermarket, 260, 480, width/6, height/5);
     image(imgCommunitycentre, 615, 200, width/7, height/6);
     image(imgBushub, 810, 30, width/11, height/9); 
-    textAlign(CENTER);
+    
+    textAlign(CENTER); //places the text
     fill(255);
     textSize(28);
     text("Total Collisions: " + totalCollisions, 320, 350);
@@ -114,16 +118,16 @@ void setupRoads() {
   allRoads.add(new Road(500, 0, 500, 60));
 }
 
-void updateCars() {
+void updateCars() { //updates cars
   for (int i = 0; i < allCars.size(); i++) {
     allCars.get(i).moveVehicle();
     allCars.get(i).turn();
-    for (int z = 0; z < allCars.size(); z++) {
+    for (int z = 0; z < allCars.size(); z++) { //checks for collisions by running a loop through all other cars
       if (i != z) { //to make sure the car is not checking itself for collision
         if (abs(allCars.get(i).getCenterLocationX() - allCars.get(z).getCenterLocationX()) <= 30 && abs(allCars.get(i).getCenterLocationY() - allCars.get(z).getCenterLocationY()) <= 30) {
           allCars.get(i).movementCooldown += 30;
           allCars.get(z).movementCooldown -= 30;
-        }
+        } //if the cars still collide, update counter and change them to be red.
         if (abs(allCars.get(i).getCenterLocationX() - allCars.get(z).getCenterLocationX()) <= 2 && abs(allCars.get(i).getCenterLocationY() - allCars.get(z).getCenterLocationY()) <= 2) {
           allCars.get(i).Color = red;
           allCars.get(z).Color = red;
@@ -131,33 +135,31 @@ void updateCars() {
         }
       }
     }
-    if (allCars.get(i).despawn == true || allCars.get(i).checkOffScreen() == true) {
+    if (allCars.get(i).despawn == true || allCars.get(i).checkOffScreen() == true) { //despawns cars if they're not nearby
       allCars.remove(i);
     }
   }
 }  
-void drawCars() {
+void drawCars() { //runs a loop to draw every car in the arraylist
   for (int i = 0; i < allCars.size(); i++) {
     allCars.get(i).drawVehicle();
   }
 }
 
-void drawMap() {
+void drawMap() { //draws the map and everything on it
   ////////////////////////// Roads
   for (int i = 0; i < allRoads.size(); i++) {
-    if (allRoads.get(i).checkType() == "road") {
+    if (allRoads.get(i).checkType() == "road") { //if it's a road, draw the road
       allRoads.get(i).drawRoad();
-    } else if (allRoads.get(i).checkType() == "intersection") {
+    } else if (allRoads.get(i).checkType() == "intersection") { //if it's an intersection, run a different method
       allRoads.get(i).drawIntersection();
-    } else if (allRoads.get(i).checkType() == "curve") {
-      allRoads.get(i).drawCurveLine();
-    } else {
+    } else { //if it's not either of those, run the final method
       allRoads.get(i).drawLine();
     }
   }
 }
 
-boolean trueOrFalse() {
+boolean trueOrFalse() { //a method used to have a random true or false output
   if (int(random(1, 100)) >= 50) {
     return true;
   } else {
@@ -165,7 +167,7 @@ boolean trueOrFalse() {
   }
 }
 
-void spawnCar() {
+void spawnCar() { //spawns cars in one of four locations and checks if there is a car nearby first
   int randomLocation = round(random(0,100));
   if (randomLocation <= 25) {
     if (checkNearby(0, 120) == false) {
@@ -195,7 +197,7 @@ boolean checkNearby(int x, int y) { //checks if there is a car close enough to w
   return false; //if the entire loop has finished without returning true, we can return false to spawn in a car
 }
 
-void dayTimeCarSpawn() {
+void dayTimeCarSpawn() { //spawns cars based on the time of day, each time segment has a maximum amount of cars and has a random chance of spawning a car
   if (time >= 0 && time <= 7) {
     maxCars = 3;
     for (int i = 0; i < 1; i++) {
@@ -241,7 +243,7 @@ void dayTimeCarSpawn() {
   }
 }
 
-int getBrightness() {
+int getBrightness() { //gets the brightness based on time
   if (time >= 0 && time <= 7) {
     return int(50);
   } else if (time >= 8 && time <= 11) {
