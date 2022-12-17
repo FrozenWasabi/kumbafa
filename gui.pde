@@ -88,7 +88,7 @@ public void createGUI(){
   clear = new GButton(window1, 160, 340, 80, 30);
   clear.setText("Clear Cars");
   clear.addEventHandler(this, "clear_click1");
-  speed = new GSlider(window1, 100, 220, 215, 65, 10.0);
+  speed = new GSlider(window1, 100, 230, 215, 65, 10.0);
   speed.setShowValue(true);
   speed.setLimits(5, 5, 20);
   speed.setNbrTicks(4);
@@ -96,7 +96,7 @@ public void createGUI(){
   speed.setNumberFormat(G4P.INTEGER, 0);
   speed.setOpaque(false);
   speed.addEventHandler(this, "speed_change1");
-  speedlabel = new GLabel(window1, 160, 190, 80, 20);
+  speedlabel = new GLabel(window1, 170, 210, 80, 20);
   speedlabel.setTextAlign(GAlign.CENTER, GAlign.MIDDLE);
   speedlabel.setText("Car Speed");
   speedlabel.setOpaque(false);

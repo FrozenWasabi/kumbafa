@@ -29,6 +29,7 @@ ArrayList<Car> allCars; //arraylist for all cars on the road
 ArrayList<Road> allRoads =  new ArrayList<Road>(); //arraylist for all roads
 
 int maxCars = 1;
+int totalCollisions = 0;
 
 void setup() {
   frameRate(30);
@@ -51,7 +52,6 @@ void setupVehicleArrays() {
 }
 void draw() {
   if (paused == false) {
-    println(time);
     int brightness = getBrightness();
     colorMode(HSB);
     background(120, 100, brightness);
@@ -67,10 +67,10 @@ void draw() {
     image(imgSupermarket, 260, 480, width/6, height/5);
     image(imgCommunitycentre, 615, 200, width/7, height/6);
     image(imgBushub, 810, 30, width/11, height/9); 
-    //rectMode(CENTER);
-    //rect(140,120,20,20);
-    //  updatePeople();
-    //  drawPeople();
+    textAlign(CENTER);
+    fill(255);
+    textSize(28);
+    text("Total Collisions: " + totalCollisions, 320, 350);
   }
 }
 
@@ -123,6 +123,11 @@ void updateCars() {
         if (abs(allCars.get(i).getCenterLocationX() - allCars.get(z).getCenterLocationX()) <= 30 && abs(allCars.get(i).getCenterLocationY() - allCars.get(z).getCenterLocationY()) <= 30) {
           allCars.get(i).movementCooldown += 30;
           allCars.get(z).movementCooldown -= 30;
+        }
+        if (abs(allCars.get(i).getCenterLocationX() - allCars.get(z).getCenterLocationX()) <= 2 && abs(allCars.get(i).getCenterLocationY() - allCars.get(z).getCenterLocationY()) <= 2) {
+          allCars.get(i).Color = red;
+          allCars.get(z).Color = red;
+          totalCollisions += 1;
         }
       }
     }
